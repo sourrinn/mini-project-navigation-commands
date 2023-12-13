@@ -1,21 +1,58 @@
 package code;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.bouncycastle.asn1.dvcs.Data;
 //import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 public class NavigationCommands {
 	
 	static WebDriver driver;
 	
-	public void sendInputToGoogleSearch() {
+	public List<String> excelData(String excelName, int rowNum) throws IOException {
+		List<String> data = new ArrayList<String>();
+		String cd = System.getProperty("user.dir");
+		excelName = cd + "\\src\\test\\resources\\" + excelName;
+		File file = new File(excelName);
+		file.getAbsolutePath();
+ 
+		FileInputStream is = new FileInputStream(file);
+		XSSFWorkbook workbook = new XSSFWorkbook(is);
+		XSSFSheet sheet = workbook.getSheetAt(0);
+ 
+		XSSFRow row = sheet.getRow(rowNum);
+		int totalCells = row.getLastCellNum();
+ 
+		XSSFCell cell;
+ 
+		for (int i = 0; i < totalCells; i++) {
+			cell = row.getCell(i);
+			data.add(cell.toString());
+		}
+ 
+		workbook.close();
+		return data;
+	}
+	
+	public void sendInputToGoogleSearch(String searchInput) {
 		WebElement gsearchbox = driver.findElement(By.id("APjFqb"));
-		gsearchbox.sendKeys("Orange HRM demo");
+		gsearchbox.sendKeys(searchInput);
 		gsearchbox.sendKeys(Keys.ENTER);
 	}
 	
@@ -26,6 +63,19 @@ public class NavigationCommands {
 		DriverSetup driverSetup = new DriverSetup();
 		driver = driverSetup.setUpWebDriver(1);
 		
+		// Fetching the data from excel sheet
+		List<String> input_data = null;
+		
+		try {
+			input_data = e.excelData("data.xlsx", 0);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+//		for (String x: input_data) {
+//			System.out.println(x);
+//		}
+
 		// Launch Browser and maximize windows
 		driver.get("https://google.com");
 		driver.manage().window().maximize();
@@ -33,8 +83,9 @@ public class NavigationCommands {
 		// Implement the implicit wait
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		
+		
 		// Send input to Google Search Input box and click on the Search Button
-		e.sendInputToGoogleSearch();
+		e.sendInputToGoogleSearch(input_data.get(0));
 		Thread.sleep(3000);
 		
 		// Click on the back button and verify if previous page is appearing
@@ -74,10 +125,10 @@ public class NavigationCommands {
 		driver.findElement(By.xpath("//*[@id=\"navbarSupportedContent\"]/div[2]/ul/li[2]/a/button")).click();
 		
 		// Send Input to the form
-		driver.findElement(By.id("Form_getForm_FullName")).sendKeys("India");
-		driver.findElement(By.id("Form_getForm_JobTitle")).sendKeys("ABC");
-		driver.findElement(By.id("Form_getForm_Email")).sendKeys("test@test.com");
-		driver.findElement(By.id("Form_getForm_Contact")).sendKeys("1234567890");
+		driver.findElement(By.id("Form_getForm_FullName")).sendKeys(input_data.get(1));
+		driver.findElement(By.id("Form_getForm_JobTitle")).sendKeys(input_data.get(2));
+		driver.findElement(By.id("Form_getForm_Email")).sendKeys(input_data.get(3));
+		driver.findElement(By.id("Form_getForm_Contact")).sendKeys(input_data.get(4));
 		
 		//scrolling down
 		JavascriptExecutor je = (JavascriptExecutor) driver;
@@ -87,7 +138,7 @@ public class NavigationCommands {
 		// Send Input to the drop down inputs
 		WebElement countrySelect = driver.findElement(By.name("Country"));
 		Select selectCountryOption = new Select(countrySelect);
-		selectCountryOption.selectByValue("India");
+		selectCountryOption.selectByValue(input_data.get(5));
 		WebElement numOfEmpDropDown= driver.findElement(By.id("Form_getForm_NoOfEmployees"));
 		Select selectOption= new Select(numOfEmpDropDown);
 		selectOption.selectByValue("11 - 15");
@@ -112,9 +163,9 @@ public class NavigationCommands {
 			}
 		} catch (Exception err) {
 			System.out.println("Requirement Not Verified: The driver doesn't navigate to the previous page.");
-			System.out.println(err.getMessage());
+//			System.out.println(err.getMessage());
 		}
 		Thread.sleep(3000);
-		driver.quit();	
+		driver.quit();
 	}
 }

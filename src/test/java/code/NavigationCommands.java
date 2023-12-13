@@ -7,13 +7,10 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.bouncycastle.asn1.dvcs.Data;
-//import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -71,10 +68,6 @@ public class NavigationCommands {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-//		for (String x: input_data) {
-//			System.out.println(x);
-//		}
 
 		// Launch Browser and maximize windows
 		driver.get("https://google.com");
@@ -163,7 +156,6 @@ public class NavigationCommands {
 			}
 		} catch (Exception err) {
 			System.out.println("Requirement Not Verified: The driver doesn't navigate to the previous page.");
-//			System.out.println(err.getMessage());
 		}
 		Thread.sleep(3000);
 		driver.quit();

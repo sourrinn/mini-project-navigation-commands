@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -56,9 +57,13 @@ public class NavigationCommands {
 	public static void main(String[] args) throws InterruptedException {
 		NavigationCommands e = new NavigationCommands();
 		
+		System.out.println("Which browser do you want to automate? (Chrome is set to be the default browser.) \n1. Google Chrome \n2. Microsoft Edge");
+		Scanner sc = new Scanner(System.in);
+		int browser = sc.nextInt();
+		
 		// Driver Setup
 		DriverSetup driverSetup = new DriverSetup();
-		driver = driverSetup.setUpWebDriver(1);
+		driver = driverSetup.setUpWebDriver(browser);
 		
 		// Fetching the data from excel sheet
 		List<String> input_data = null;

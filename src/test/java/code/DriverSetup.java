@@ -7,11 +7,11 @@ import org.openqa.selenium.edge.EdgeDriver;
 public class DriverSetup {
 	public WebDriver setUpWebDriver(int ch) {
 		WebDriver driver;
-		if(ch == 1) {
-			driver = new ChromeDriver();
+		if(ch == 2) {
+			driver = new EdgeDriver();
 		}
 		else {
-			driver = new EdgeDriver();
+			driver = new ChromeDriver();
 		}
 		return driver;
 	}

@@ -18,9 +18,6 @@
 		    <version>4.11.0</version>
 		</dependency>
 
-
-
-
 		<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
 		<dependency>
 			<groupId>io.github.bonigarcia</groupId>

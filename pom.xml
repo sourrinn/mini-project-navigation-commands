@@ -17,6 +17,13 @@
 		    <artifactId>selenium-devtools-v113</artifactId>
 		    <version>4.11.0</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-devtools-v120 -->
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-devtools-v120</artifactId>
+		    <version>4.16.1</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
 		<dependency>

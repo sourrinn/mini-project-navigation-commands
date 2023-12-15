@@ -60,6 +60,7 @@ public class NavigationCommands {
 		System.out.println("Which browser do you want to automate? (Chrome is set to be the default browser.) \n1. Google Chrome \n2. Microsoft Edge");
 		Scanner sc = new Scanner(System.in);
 		int browser = sc.nextInt();
+		sc.close();
 		
 		// Driver Setup
 		DriverSetup driverSetup = new DriverSetup();
@@ -77,6 +78,7 @@ public class NavigationCommands {
 		// Launch Browser and maximize windows
 		driver.get("https://google.com");
 		driver.manage().window().maximize();
+		driver.manage().deleteAllCookies();
 		
 		// Implement the implicit wait
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
